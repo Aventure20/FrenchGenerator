@@ -1,14 +1,14 @@
 import random
 import time
-file_name = input("Quel est le nom du fichier ou vous souhaiter enregistrer les données générées ?\n")
+file_name = input("What is the name of the file where you want to save generated data?\n")
 time.sleep(0.8)
-print("D'accord nous allons enregistrer les données sur le fichier " + file_name + ".txt")
+print("OK, we gonna save data in " + file_name + ".txt")
 time.sleep(1)
 while True :
-    check = input("Vous confirmez ? Veuillez répondre par Oui ou Non\n")
+    check = input("Do you confirm? Please answer by Yes or No\n")
     check = check.lower()
-    if check == "oui" : break
-    elif check == "non" :
+    if check == "yes" : break
+    elif check == "no" :
         file_name = input("Quel est le nom du fichier ou vous souhaiter enregistrer les données générées ?\n")
         time.sleep(0.8)
         print("D'accord nous allons enregistrer les données sur le fichier " + file_name + ".txt")
