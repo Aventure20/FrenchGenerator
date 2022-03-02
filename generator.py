@@ -1,57 +1,65 @@
 import random
 import time
+import phonenumbers
+from phonenumbers import carrier
+
+visual = "//////////////////////////////////////////////////////////////////////"
+
+print(visual)
+print("ALL DATA GENERATED HERE IS BASED ON THE PATTERN OF THE FRENCH SYSTEM")
+print(visual + "\n")
+
 file_name = input("What is the name of the file where you want to save generated data?\n")
-time.sleep(0.8)
+
 print("OK, we gonna save data in " + file_name + ".txt")
-time.sleep(1)
 while True :
     check = input("Do you confirm? Please answer by Yes or No\n")
     check = check.lower()
     if check == "yes" : break
+    if check == "y" : break
     elif check == "no" :
-        file_name = input("Quel est le nom du fichier ou vous souhaiter enregistrer les données générées ?\n")
-        time.sleep(0.8)
-        print("D'accord nous allons enregistrer les données sur le fichier " + file_name + ".txt")
+        file_name = input("What is the name of the file where you want to save generated data?\n")
+        print("OK, we gonna save data in " + file_name + ".txt")
+    elif check == "n" :
+        file_name = input("What is the name of the file where you want to save generated data?\n")
+        print("OK, we gonna save data in " + file_name + ".txt")
     else :
-        print("Veuillez répondre par Oui ou Non!")
-        time.sleep(0.8)
+        print("Please answer by Yes or No!\n")
+        
 
-time.sleep(1)
-
-what = input("Que soitez-vous générer? Tapez 1 pour des numéros de téléphone et 2 pour des plaques d'immatriculations ?\n")
+what = input("What do you want to generate?\n    1) Phone numbers\n    2) Number plates\n")
 while True :
     if what == "1" : break
     elif what == "2" : break
     else :
-        print("Veuillez répondre par 1 ou 2")
-        what = input("Que soitez-vous générer? Tapez 1 pour des numéros de téléphone et 2 pour des plaques d'immatriculations")
+        print("Please answer by 1 or 2\n")
+        what = input("What do you want to generate?\n    1) Phone numbers\n    2) Number plates\n")
 
 if what == "1" :
-    what = "numero(s) de telephone"
-    print("D'accord nous allons générez des " + what)
+    what = "phone numbers."
+    print("Ok we gonna generate", what, "Let's do this!")
     while True:
-        nb = input("Combien de numéro(s) de téléphone(s) voulez-vous générer ?\n")
+        nb = input("How many phone numbers do you want?\n")
         if nb.isdigit() == False :
-            print("Veuillez entrer un nombre entier!")
-            time.sleep(0.5)
+            print("Please enter an integer number!")
         else: break
-    print("Très bien nous allons vous générer", nb, "numéro(s) de téléphone(s)")
+    print("No problem, we gonna generate", nb, "phone numbers")
     nb_int =int(nb)
     rep = 0
     with open(file_name + ".txt", "a+") as file :
-        file.write("Generation de ")
+        file.write("Generating ")
         file.write(nb)
-        file.write(" numero(s) de telephone(s)\n")
+        file.write(" phone numbers\n")
         file.close()
+    print(visual)
     while rep < nb_int :
-        rep = rep + 1
-        num0 = "0"
-        num1 ="67"
+        num0 = "+33"
+        num1 = "67"
         numO = "1234567890"
         numr1 = random.choice(num1)
         numr2 = random.choice(numO)
         numr3 = random.choice(numO)
-        numr4 = random.choice(num0)
+        numr4 = random.choice(numO)
         numr5 = random.choice(numO)
         numr6 = random.choice(numO)
         numr7 = random.choice(numO)
@@ -59,15 +67,26 @@ if what == "1" :
         numr9 = random.choice(numO)
         head = "N"
         result_num = num0 + numr1 + numr2 + numr3 + numr4 + numr5 + numr6 + numr7 + numr8 + numr9
-        print(head, rep, result_num)
-        rep_str= str(rep)
-        with open(file_name + ".txt", "a+") as file :
-            file.write(head)
-            file.write(rep_str)
-            file.write(" ")
-            file.write(result_num)
-            file.write("\n")
-            file.close()
+        verif = phonenumbers.parse(result_num)
+        if phonenumbers.is_valid_number(verif) == True: 
+            rep = rep + 1            
+            phone_carrier = carrier.name_for_number(verif, "en")
+            print(head, rep, result_num, phone_carrier)
+            print(visual)
+            rep_str= str(rep)
+            with open(file_name + ".txt", "a+") as file :
+                file.write(head)
+                file.write(rep_str)
+                file.write(" // ")
+                file.write(result_num)
+                file.write(" // ")
+                file.write(phone_carrier)
+                file.write("\n")
+                file.close()
+        else:
+            #DEBUG: print("This phone number wasn't valid.")
+            continue
+    print("\n")
     with open(file_name + ".txt", "a+") as file :
         file.write("Generation de ")
         file.write(nb)
